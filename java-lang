@@ -1,0 +1,81 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class Calculator extends JFrame {
+
+    private JTextField display;
+    private JButton[] digits = new JButton[10];
+    private JButton clear, plus, minus, multiply, divide;
+
+    public Calculator() {
+        super("Calculator");
+        setLayout(new FlowLayout());
+
+        display = new JTextField();
+        display.setEditable(false);
+        add(display);
+
+        for (int i = 0; i < 10; i++) {
+            digits[i] = new JButton(String.valueOf(i));
+            digits[i].addActionListener(new DigitListener());
+            add(digits[i]);
+        }
+
+        clear = new JButton("C");
+        clear.addActionListener(new ClearListener());
+        add(clear);
+
+        plus = new JButton("+");
+        plus.addActionListener(new OperatorListener());
+        add(plus);
+
+        minus = new JButton("-");
+        minus.addActionListener(new OperatorListener());
+        add(minus);
+
+        multiply = new JButton("*");
+        multiply.addActionListener(new OperatorListener());
+        add(multiply);
+
+        divide = new JButton("/");
+        divide.addActionListener(new OperatorListener());
+        add(divide);
+
+        pack();
+        setVisible(true);
+    }
+
+    private class DigitListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String digit = e.getActionCommand();
+            display.setText(display.getText() + digit);
+        }
+    }
+
+    private class ClearListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            display.setText("");
+        }
+    }
+
+    private class OperatorListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String operator = e.getActionCommand();
+            int value = Integer.parseInt(display.getText());
+
+            if (operator.equals("C")) {
+                display.setText("");
+            } else {
+                display.setText("" + value + operator);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Calculator calculator = new Calculator();
+    }
+}
